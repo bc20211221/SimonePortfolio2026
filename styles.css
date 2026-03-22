@@ -1,0 +1,840 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 导入像素字体 */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* 本地字体 */
+@font-face {
+    font-family: 'UranusPixel';
+    src: url('fonts/Uranus_Pixel_11Px.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #fff;
+    background: linear-gradient(135deg, #000000 0%, #212121 50%, #343434 100%);
+    min-height: 100vh;
+}
+
+/* 项目1页面特定背景色 */
+body.project1-page {
+    background: #131313;
+}
+
+/* 项目2页面特定背景色 */
+body.project2-page {
+    background: #37C0EE;
+}
+
+/* 项目3页面特定背景色 */
+body.project3-page {
+    background: #788C44;
+}
+
+/* 导航栏 - iOS风格 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    background: rgba(28, 28, 30, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    color: #fff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: transform 0.3s ease, background 0.3s ease;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 2rem;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+.nav-links a:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+/* 项目内导航栏 - iOS风格 */
+.project-subnav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: rgba(28, 28, 30, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    padding: 0.75rem 2rem;
+    z-index: 1001;
+    transition: top 0.3s ease;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-subnav-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.project-subnav-links a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+.project-subnav-links a:hover {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* 调整项目详情区域的上边距，为两个导航栏留出空间 */
+.project-detail {
+    padding-top: 120px;
+}
+
+/* 封面 */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    padding: 0 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    width: 100%;
+    text-align: left;
+}
+
+.hero-title {
+    font-family: 'UranusPixel', 'Press Start 2P', cursive;
+    font-size: 5.5rem;
+    font-weight: normal;
+    margin-bottom: 1rem;
+    text-shadow: 4px 4px 0 rgba(21, 21, 21, 0.5);
+    letter-spacing: 1px;
+}
+
+.hero-subtitle {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2rem;
+    font-weight: normal;
+    margin-bottom: 3rem;
+    text-shadow: 2px 2px 0 rgba(91, 91, 91, 0.5);
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.hero-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    color: #c5c5c5;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.info-icon {
+    font-size: 1.2rem;
+}
+
+.info-text {
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .hero-info {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .info-item {
+        font-size: 0.9rem;
+    }
+}
+
+/* 项目目录 */
+.projects {
+    padding: 4rem 2rem;
+}
+
+.projects h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-family: 'UranusPixel', 'Press Start 2P', cursive;
+    font-size: 2.5rem;
+    font-weight: normal;
+}
+
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #333;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: #fff;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    border-color: #667eea;
+}
+
+.project-thumbnail {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.project-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-thumbnail img {
+    transform: scale(1.05);
+}
+
+.project-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.project-info h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.project-info p {
+    color: #ccc;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.project-tag {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.project-tag img {
+    height: 30px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* 关于部分 */
+.about {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.about h2 {
+    margin-bottom: 3rem;
+    font-family: 'UranusPixel', 'Press Start 2P', cursive;
+    font-size: 2.5rem;
+    font-weight: normal;
+    text-align: center;
+}
+
+.about-content {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    gap: 4rem;
+}
+
+.about-photo {
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.about-photo img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.about-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.about-name span {
+    font-size: 1rem;
+    color: #ccc;
+    margin-left: 0.5rem;
+}
+
+.about-info {
+    flex: 1;
+}
+
+.info-section {
+    margin-bottom: 2rem;
+}
+
+.info-section:last-child {
+    margin-bottom: 0;
+}
+
+.info-section h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+}
+
+.info-section p {
+    color: #ccc;
+    margin-bottom: 0.5rem;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .project-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .about-photo {
+        text-align: center;
+    }
+}
+
+/* 项目详情页 */
+.project-detail {
+    padding: 8rem 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-detail h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* 项目Banner样式 */
+.project-banner {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.project-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 试玩按钮样式 */
+.play-button-container {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.play-button {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(69, 224, 255, 0.5), rgba(41, 134, 153, 0.5));
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(69, 224, 255, 0.3);
+    border: 1px solid #45E0FF;
+}
+
+.play-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(69, 224, 255, 0.4);
+    background: linear-gradient(135deg, rgba(69, 224, 255, 0.6), rgba(41, 134, 153, 0.6));
+}
+
+.play-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(69, 224, 255, 0.3);
+}
+
+/* 项目二试玩按钮样式 */
+.play-button.play-button-project2 {
+    background: linear-gradient(135deg, rgba(235, 69, 105, 0.6), rgba(202, 0, 44, 0.6));
+    box-shadow: 0 4px 6px rgba(235, 69, 105, 0.3);
+    border: 1px solid #EB4569;
+}
+
+.play-button.play-button-project2:hover {
+    box-shadow: 0 6px 8px rgba(235, 69, 105, 0.4);
+    background: linear-gradient(135deg, rgba(235, 69, 105, 0.7), rgba(202, 0, 44, 0.7));
+}
+
+.play-button.play-button-project2:active {
+    box-shadow: 0 2px 4px rgba(235, 69, 105, 0.3);
+}
+
+/* 项目三试玩按钮样式 */
+.play-button.play-button-project3 {
+    background: linear-gradient(135deg, rgba(193, 225, 165, 0.6), rgba(153, 181, 79, 0.6));
+    box-shadow: 0 4px 6px rgba(193, 225, 165, 0.3);
+    border: 1px solid #C1E1A5;
+}
+
+.play-button.play-button-project3:hover {
+    box-shadow: 0 6px 8px rgba(193, 225, 165, 0.4);
+    background: linear-gradient(135deg, rgba(193, 225, 165, 0.7), rgba(153, 181, 79, 0.7));
+}
+
+.play-button.play-button-project3:active {
+    box-shadow: 0 2px 4px rgba(193, 225, 165, 0.3);
+}
+
+/* 文档按钮样式 */
+.document-buttons {
+    display: flex;
+    gap: 1rem;
+    margin: 3rem 0;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.doc-button {
+    flex: 1;
+    min-width: 200px;
+    background: linear-gradient(135deg, rgba(69, 224, 255, 0.5), rgba(41, 134, 153, 0.5));
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(69, 224, 255, 0.3);
+    white-space: nowrap;
+    border: 1px solid #45E0FF;
+}
+
+.doc-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(69, 224, 255, 0.4);
+    background: linear-gradient(135deg, rgba(69, 224, 255, 0.6), rgba(41, 134, 153, 0.6));
+}
+
+.doc-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(69, 224, 255, 0.3);
+}
+
+.video-container {
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 比例 */
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.project-description {
+    margin-bottom: 3rem;
+}
+
+.project-description h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.project-description ul {
+    margin-left: 1.5rem;
+    margin-top: 1rem;
+}
+
+.project-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.project-images img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* 项目一图片垂直排布样式 */
+.project-images.project1-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+.project-images.project1-vertical img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* 项目二、三、四图片垂直排布样式 */
+.project-images.project-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+.project-images.project-vertical img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.project-nav {
+    position: fixed;
+    bottom: 20%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+}
+
+.project-nav.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.prev-project-card,
+.next-project-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(28, 28, 30, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.85);
+    transition: all 0.3s ease;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.prev-project-card {
+    margin-right: auto;
+}
+
+.next-project-card {
+    margin-left: auto;
+}
+
+.prev-project-card:hover,
+.next-project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(28, 28, 30, 0.9);
+    color: rgba(255, 255, 255, 1);
+}
+
+.nav-thumbnail {
+    width: 100px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.nav-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.prev-project-card:hover .nav-thumbnail img,
+.next-project-card:hover .nav-thumbnail img {
+    transform: scale(1.05);
+}
+
+.nav-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.25rem;
+}
+
+.nav-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .nav-links {
+        margin-top: 1rem;
+    }
+
+    .nav-links li {
+        margin: 0 0.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .project-images {
+        grid-template-columns: 1fr;
+    }
+
+    .project-detail {
+        padding: 6rem 1rem 3rem;
+    }
+
+    /* 项目内导航栏响应式设计 */
+    .project-subnav {
+        padding: 0.5rem 1rem;
+        top: 55px;
+    }
+    
+    .project-subnav.sticky-top {
+        top: 0 !important;
+    }
+
+    .project-subnav-links {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .project-subnav-links a {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+        white-space: nowrap;
+        border-radius: 6px;
+    }
+    
+    /* 试玩按钮响应式设计 */
+    .play-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    /* 文档按钮响应式设计 */
+    .document-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .doc-button {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    /* 项目导航按钮响应式设计 */
+    .project-nav {
+        padding: 0 1rem;
+    }
+    
+    .prev-project-card,
+    .next-project-card {
+        padding: 0.8rem;
+        max-width: 250px;
+    }
+    
+    .nav-thumbnail {
+        width: 80px;
+        height: 60px;
+    }
+    
+    .nav-label {
+        font-size: 0.8rem;
+    }
+    
+    .nav-title {
+        font-size: 0.9rem;
+    }
+}
+
+/* 更小屏幕尺寸的响应式设计 */
+@media (max-width: 480px) {
+    .project-subnav-links {
+        gap: 0.3rem;
+    }
+
+    .project-subnav-links a {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+    }
+    
+    /* 试玩按钮响应式设计 - 更小屏幕 */
+    .play-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    /* 项目导航按钮响应式设计 - 更小屏幕 */
+    .project-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        bottom: 10%;
+    }
+    
+    .prev-project-card,
+    .next-project-card {
+        margin: 0 !important;
+        max-width: 200px;
+        padding: 0.6rem;
+    }
+    
+    .nav-thumbnail {
+        width: 60px;
+        height: 45px;
+    }
+    
+    .nav-label {
+        font-size: 0.7rem;
+    }
+    
+    .nav-title {
+        font-size: 0.8rem;
+    }
+}
+
+/* 平滑滚动 */
+html {
+    scroll-behavior: smooth;
+}
