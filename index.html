@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- 滚动进度条 -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <!-- 导航栏 -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <a href="index.html" class="logo"><img src="images/logo.png" alt="Simone Game"></a>
         <ul class="nav-links">
             <li><a href="index.html">首页</a></li>
@@ -44,9 +47,10 @@
     <!-- 项目目录 -->
     <section id="projects" class="projects">
         <h2>项目作品</h2>
+        <p class="section-subtitle">精选作品集</p>
         <div class="project-list">
             <!-- 项目1 -->
-            <a href="project1.html" class="project-card">
+            <a href="project1.html" class="project-card animate-on-scroll">
                 <div class="project-thumbnail">
                     <img src="images/project1-thumb.png" alt="方块冒险">
                 </div>
@@ -59,7 +63,7 @@
                 </div>
             </a>
             <!-- 项目2 -->
-            <a href="project2.html" class="project-card">
+            <a href="project2.html" class="project-card animate-on-scroll delay-1">
                 <div class="project-thumbnail">
                     <img src="images/project2-thumb.png" alt="迷宫探索">
                 </div>
@@ -72,7 +76,7 @@
                 </div>
             </a>
             <!-- 项目3 -->
-            <a href="project3.html" class="project-card">
+            <a href="project3.html" class="project-card animate-on-scroll delay-2">
                 <div class="project-thumbnail">
                     <img src="images/project3-thumb.png" alt="星际射击">
                 </div>
@@ -85,7 +89,7 @@
                 </div>
             </a>
             <!-- 项目4 -->
-            <a href="project4.html" class="project-card">
+            <a href="project4.html" class="project-card animate-on-scroll delay-3">
                 <div class="project-thumbnail">
                     <img src="images/project4-thumb.png" alt="幻想之旅">
                 </div>
@@ -103,12 +107,13 @@
     <!-- 关于部分 -->
     <section id="about" class="about">
         <h2>关于我</h2>
+        <p class="section-subtitle">ABOUT ME</p>
         <div class="about-content">
-            <div class="about-photo">
+            <div class="about-photo animate-on-scroll">
                 <img src="images/avatar.png" alt="沈新苗 Simone">
                 <p class="about-name">沈新苗 <span>Simone</span></p>
             </div>
-            <div class="about-info">
+            <div class="about-info animate-on-scroll delay-1">
                 <div class="info-section">
                     <h3>教育经历</h3>
                     <p>2024.09-2027.06 硕士 浙江大学(C9)-工业设计工程专业</p>
@@ -116,20 +121,21 @@
                 </div>
                 <div class="info-section">
                     <h3>实习经历</h3>
-                    <p>2025.10-2026.01 腾讯游戏光子H工作室（在研开放世界） 系统策划-养成与商业化方向</p>
-                    <p>2025.06-2025.09 叠纸网络科技有限公司（无限暖暖） 系统策划-服装能力与资源方向</p>
-                    <p>2024.07-2024.09 灵境万维智能科技有限公司（AIGC企业） UX设计师</p>
+                    <p>2026.06-2026.09 腾讯天美工作室（王者荣耀） 系统策划-王者农场与局外社交</p>
+                    <p>2025.10-2026.01 腾讯光子工作室（在研开放世界） 系统策划-养成系统与商业化</p>
+                    <p>2025.06-2025.09 叠纸游戏（无限暖暖） 系统策划-服装玩法与资源</p>
+
                 </div>
                 <div class="info-section">
                     <h3>专业技能</h3>
                     <p>掌握 Unity、UE 游戏开发引擎，精通 Excel、Figma 等策划工具。</p>
                     <p>熟悉 Blender、C4D、PS、AE等美术资源工具，具备AIGC相关工具部署和创作经验。</p>
-                    <p>英语四六级高分通过。游戏设计、数据分析、计算机概抡、智能设计等学业课程高分修读。</p>
+                    <p>通过英语四六级，专业主修游戏设计、数据分析、计算机概抡、智能设计等课程。</p>
                 </div>
                 <div class="info-section">
                     <h3>个人特点</h3>
                     <p>性格：INTJ，思维敏捷，情绪稳定，乐于沟通，擅长协作。</p>
-                    <p>爱好：游戏、影视、绘画、同人创作等。游戏类型偏好策略、肉鸽、开放世界、模拟经营等。</p>
+                    <p>爱好：游戏、电影、绘画、同人创作等。游戏类型偏好策略肉鸽、开放世界、模拟经营等。</p>
                 </div>
             </div>
         </div>
