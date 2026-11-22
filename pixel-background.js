@@ -6,7 +6,6 @@
  document.body.classList.add('pixel-home');
  const ctx=canvas.getContext('2d'); if(!ctx)return;
  const shapes=[[[0,0]],[[0,0],[0,1]],[[0,0],[1,0],[0,1],[1,1]]];
- const colors=['#a6a0b5','#8dabb0','#b6b8bb','#a4ad93'];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let cols,rows,size,offset,board,pieces=[],clock=0,last=0,frame,drag=null,flash=0,spawnClock=0;
  let tap=null, fragments=[];
@@ -36,7 +35,8 @@
  function spawn(){
   const type=Math.floor(Math.random()*shapes.length),cells=shapes[type].map(p=>p.slice());
   const shapeWidth=Math.max(...cells.map(([x])=>x))+1;
-  const piece={cells,x:Math.floor(Math.random()*(cols-shapeWidth+1)),y:-4,color:colors[type]};
+  const opacity=.05+Math.random()*.20;
+  const piece={cells,x:Math.floor(Math.random()*(cols-shapeWidth+1)),y:-4,color:'rgba(255,255,255,'+opacity+')'};
   for(let i=0;i<cols;i++){
    if(fits(cells,piece.x,piece.y,piece)){pieces.push(piece);return;}
    piece.x=(piece.x+1)%(cols-shapeWidth+1);
@@ -81,16 +81,16 @@
  }
  function cell(x,y,color){
   if(y<0)return;
-  ctx.fillStyle=color;ctx.globalAlpha=.26;
+  ctx.fillStyle=color;ctx.globalAlpha=1;
   ctx.fillRect(x*size+2,y*size+offset+2,size-4,size-4);
-  ctx.globalAlpha=.18;ctx.strokeStyle=color;ctx.lineWidth=1;
+  ctx.globalAlpha=.7;ctx.strokeStyle=color;ctx.lineWidth=1;
   ctx.strokeRect(x*size+2.5,y*size+offset+2.5,size-5,size-5);
  }
  function draw(){
   ctx.clearRect(0,0,innerWidth,innerHeight);
   board.forEach((row,y)=>row.forEach((c,x)=>{if(c)cell(x,y,c);}));
   for(const piece of pieces)for(const [x,y]of piece.cells)cell(piece.x+x,piece.y+y,piece.color);
-  for(const p of fragments){ctx.globalAlpha=.5*p.life/.7;ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,size/3-2,size/3-2);}
+  for(const p of fragments){ctx.globalAlpha=Math.max(0,p.life/.7);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,size/3-2,size/3-2);}
   if(flash>0){ctx.globalAlpha=flash*.15;ctx.fillStyle='#fff';ctx.fillRect(0,innerHeight-size,innerWidth,size);}
   ctx.globalAlpha=1;
  }
