@@ -1,28 +1,43 @@
-/* Fixed, translucent T/L/I/Z background. One controllable piece at a time. */
+/* Fixed translucent block background. One controllable piece at a time. */
 (() => {
  const canvas=document.querySelector('.pixel-background');
  if(!canvas)return;
  document.body.prepend(canvas);
  document.body.classList.add('pixel-home');
  const ctx=canvas.getContext('2d'); if(!ctx)return;
- const shapes=[[[1,0],[0,1],[1,1],[2,1]],[[0,0],[0,1],[0,2],[1,2]],[[0,0],[0,1],[0,2],[0,3]],[[0,0],[1,0],[1,1],[2,1]]];
+ const shapes=[[[0,0]],[[0,0],[0,1]],[[0,0],[1,0],[0,1],[1,1]]];
  const colors=['#a6a0b5','#8dabb0','#b6b8bb','#a4ad93'];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let cols,rows,size,offset,board,piece,clock=0,last=0,frame,drag=null,flash=0;
  let tap=null, fragments=[];
  function cancelTap(){if(tap)clearTimeout(tap.timer);tap=null;}
  function shatter(){
-  if(!reduced.matches)for(const [dx,dy] of piece.cells)for(let i=0;i<9;i++)fragments.push({
-   x:(piece.x+dx+i%3/3)*size,y:(piece.y+dy+Math.floor(i/3)/3)*size+offset,
-   vx:(Math.random()-.5)*220,vy:-60-Math.random()*160,life:.7,color:piece.color
-  });
+  for(const [dx,dy] of piece.cells)burst(piece.x+dx,piece.y+dy,piece.color);
   spawn();clock=0;
+ }
+ function burst(x,y,color){
+  if(reduced.matches)return;
+  for(let i=0;i<9;i++)fragments.push({
+   x:(x+i%3/3)*size,y:(y+Math.floor(i/3)/3)*size+offset,
+   vx:(Math.random()-.5)*220,vy:-60-Math.random()*160,life:.7,color
+  });
+  if(fragments.length>1800)fragments.splice(0,fragments.length-1800);
+ }
+ function shatterConnected(x,y){
+  const queue=[[x,y]];
+  while(queue.length){
+   const [cx,cy]=queue.pop();
+   if(cx<0||cx>=cols||cy<0||cy>=rows||!board[cy][cx])continue;
+   burst(cx,cy,board[cy][cx]);board[cy][cx]=null;
+   queue.push([cx-1,cy],[cx+1,cy],[cx,cy-1],[cx,cy+1]);
+  }
  }
  function fits(cells,x,y){return cells.every(([dx,dy])=>x+dx>=0&&x+dx<cols&&y+dy<rows&&(y+dy<0||!board[y+dy][x+dx]));}
  function spawn(){
   cancelTap();
-  const type=Math.floor(Math.random()*4),cells=shapes[type].map(p=>p.slice());
-  piece={cells,x:Math.floor(Math.random()*Math.max(1,cols-3)),y:-4,color:colors[type]};
+  const type=Math.floor(Math.random()*shapes.length),cells=shapes[type].map(p=>p.slice());
+  const shapeWidth=Math.max(...cells.map(([x])=>x))+1;
+  piece={cells,x:Math.floor(Math.random()*(cols-shapeWidth+1)),y:-4,color:colors[type]};
   if(!fits(cells,piece.x,piece.y)){board=Array.from({length:rows},()=>Array(cols).fill(null));}
  }
  function clearRows(){
@@ -77,12 +92,14 @@
  window.addEventListener('pointerdown',e=>{
   if(interactive(e.target)||e.button!==0)return;
   const x=Math.floor(e.clientX/size),y=Math.floor((e.clientY-offset)/size);
-  if(!piece.cells.some(([dx,dy])=>piece.x+dx===x&&piece.y+dy===y))return;
-  drag={id:e.pointerId,startX:e.clientX,startY:e.clientY,x:piece.x,moved:false};
+  const active=piece.cells.some(([dx,dy])=>piece.x+dx===x&&piece.y+dy===y);
+  if(!active&&!board[y]?.[x])return;
+  drag={id:e.pointerId,startX:e.clientX,startY:e.clientY,x:piece.x,moved:false,active,cellX:x,cellY:y};
  });
  window.addEventListener('pointermove',e=>{
   if(!drag||drag.id!==e.pointerId)return;
   if(Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)>8)drag.moved=true;
+  if(!drag.active)return;
   const target=drag.x+Math.round((e.clientX-drag.startX)/size),direction=Math.sign(target-piece.x);
   while(piece.x!==target&&fits(piece.cells,piece.x+direction,piece.y))piece.x+=direction;
   draw();
@@ -90,13 +107,15 @@
  window.addEventListener('pointerup',e=>{
   if(!drag||drag.id!==e.pointerId)return;
   if(!drag.moved){
-   if(tap&&Math.hypot(e.clientX-tap.x,e.clientY-tap.y)<24){
-    cancelTap();shatter();
+   if(tap&&tap.active===drag.active&&Math.hypot(e.clientX-tap.x,e.clientY-tap.y)<24){
+    cancelTap();
+    if(drag.active)shatter();else shatterConnected(drag.cellX,drag.cellY);
    }else{
     cancelTap();
     const selected=piece;
-    tap={x:e.clientX,y:e.clientY,timer:setTimeout(()=>{
-     tap=null;if(piece===selected)rotate();draw();
+    const active=drag.active;
+    tap={x:e.clientX,y:e.clientY,active,timer:setTimeout(()=>{
+     tap=null;if(active&&piece===selected)rotate();draw();
     },280)};
    }
   }else cancelTap();
