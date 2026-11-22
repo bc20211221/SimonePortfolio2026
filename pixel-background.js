@@ -112,6 +112,8 @@
   const x=Math.floor(e.clientX/size),y=Math.floor((e.clientY-offset)/size);
   const active=pieces.find(piece=>piece.cells.some(([dx,dy])=>piece.x+dx===x&&piece.y+dy===y));
   if(!active&&!board[y]?.[x])return;
+  e.preventDefault();
+  canvas.setPointerCapture?.(e.pointerId);
   drag={id:e.pointerId,startX:e.clientX,startY:e.clientY,x:active?.x,moved:false,active,cellX:x,cellY:y};
  });
  window.addEventListener('pointermove',e=>{
@@ -137,9 +139,11 @@
     },280)};
    }
   }else cancelTap();
+  if(canvas.hasPointerCapture?.(e.pointerId))canvas.releasePointerCapture(e.pointerId);
   drag=null;draw();
  });
- window.addEventListener('pointercancel',()=>{drag=null;});
+ window.addEventListener('pointercancel',()=>{drag=null;cancelTap();});
+ canvas.addEventListener('lostpointercapture',()=>{drag=null;});
  window.addEventListener('blur',()=>{drag=null;cancelTap();});
  window.addEventListener('resize',resize);
  document.addEventListener('visibilitychange',play);
