@@ -36,7 +36,7 @@
   const type=Math.floor(Math.random()*shapes.length),cells=shapes[type].map(p=>p.slice());
   const shapeWidth=Math.max(...cells.map(([x])=>x))+1;
   const opacity=.05+Math.random()*.20;
-  const piece={cells,x:Math.floor(Math.random()*(cols-shapeWidth+1)),y:-4,color:'rgba(255,255,255,'+opacity+')',interval:.6+Math.random()*.4,elapsed:0};
+  const piece={cells,x:Math.floor(Math.random()*(cols-shapeWidth+1)),y:-4,color:'rgba(255,255,255,'+opacity+')',interval:.8+Math.random()*.4,elapsed:0};
   for(let i=0;i<cols;i++){
    if(fits(cells,piece.x,piece.y,piece)){pieces.push(piece);return;}
    piece.x=(piece.x+1)%(cols-shapeWidth+1);
