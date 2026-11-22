@@ -835,6 +835,12 @@ body.project3-page {
 }
 
 /* 平滑滚动 */
+.hero:has(.pixel-background) { background: #151515; isolation: isolate; }
+.pixel-background { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.hero:has(.pixel-background) .hero-content { pointer-events: none; text-shadow: 0 2px 12px #000; }
+.hero:has(.pixel-background) .hero-content a { pointer-events: auto; }
+.pixel-hint { position: absolute; bottom: 24px; right: 28px; z-index: 2; color: #c5c5c5; font-size: 12px; letter-spacing: 2px; pointer-events: none; }
+
 html {
     scroll-behavior: smooth;
 }
