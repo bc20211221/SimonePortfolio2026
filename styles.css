@@ -853,7 +853,7 @@ body.project3-page {
     margin: 0;
     left: auto;
     bottom: auto;
-    opacity: .16;
+    opacity: 1;
     mix-blend-mode: screen;
     pointer-events: none;
     user-select: none;
