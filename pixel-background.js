@@ -75,7 +75,11 @@
  }
  function resize(){
   const w=innerWidth,h=innerHeight;
-  cols=Math.max(8,Math.round(w/44));size=w/cols;rows=Math.ceil(h/size);offset=h-rows*size;
+  // Reference artwork: a grid cell is approximately 1.3 times the title font size.
+  const title=document.querySelector('.hero-title');
+  const titleSize=title?parseFloat(getComputedStyle(title).fontSize):88;
+  const targetSize=(Number.isFinite(titleSize)?titleSize:88)*1.3;
+  cols=Math.max(4,Math.round(w/targetSize));size=w/cols;rows=Math.ceil(h/size);offset=h-rows*size;
   const ratio=Math.min(devicePixelRatio||1,2);
   canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);
   board=Array.from({length:rows},()=>Array(cols).fill(null));pieces=[];cancelTap();
