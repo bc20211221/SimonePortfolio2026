@@ -7,7 +7,7 @@
  const ctx=canvas.getContext('2d'); if(!ctx)return;
  const shapes=[[[0,0]],[[0,0],[0,1]],[[0,0],[1,0],[0,1],[1,1]]];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- let cols,rows,size,offset,board,pieces=[],clock=0,last=0,frame,drag=null,flash=0,spawnClock=0;
+ let cols,rows,size,offset,board,pieces=[],last=0,frame,drag=null,flash=0,spawnClock=0;
  let tap=null, fragments=[];
  function cancelTap(){if(tap)clearTimeout(tap.timer);tap=null;}
  function shatter(piece){
@@ -36,7 +36,7 @@
   const type=Math.floor(Math.random()*shapes.length),cells=shapes[type].map(p=>p.slice());
   const shapeWidth=Math.max(...cells.map(([x])=>x))+1;
   const opacity=.05+Math.random()*.20;
-  const piece={cells,x:Math.floor(Math.random()*(cols-shapeWidth+1)),y:-4,color:'rgba(255,255,255,'+opacity+')'};
+  const piece={cells,x:Math.floor(Math.random()*(cols-shapeWidth+1)),y:-4,color:'rgba(255,255,255,'+opacity+')',interval:.6+Math.random()*.4,elapsed:0};
   for(let i=0;i<cols;i++){
    if(fits(cells,piece.x,piece.y,piece)){pieces.push(piece);return;}
    piece.x=(piece.x+1)%(cols-shapeWidth+1);
@@ -48,10 +48,13 @@
   while(kept.length<rows)kept.unshift(Array(cols).fill(null));
   board=kept;
  }
- function fall(){
+ function fall(dt){
   const sorted=[...pieces].sort((a,b)=>Math.max(...b.cells.map(([,y])=>b.y+y))-Math.max(...a.cells.map(([,y])=>a.y+y)));
   for(const piece of sorted){
    if(drag?.active===piece||tap?.active===piece)continue;
+   piece.elapsed+=dt;
+   if(piece.elapsed<piece.interval)continue;
+   piece.elapsed-=piece.interval;
    if(fits(piece.cells,piece.x,piece.y+1,piece)){piece.y++;continue;}
    // A falling piece resting on another active piece waits instead of locking.
    const blocked=piece.cells.some(([dx,dy])=>piece.y+dy+1>=rows||board[piece.y+dy+1]?.[piece.x+dx]);
@@ -77,7 +80,7 @@
   canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);
   board=Array.from({length:rows},()=>Array(cols).fill(null));pieces=[];cancelTap();
   for(let i=0;i<3;i++){spawn();pieces[pieces.length-1].y=-4-i*4;}
-  clock=0;spawnClock=0;drag=null;fragments=[];draw();
+  spawnClock=0;drag=null;fragments=[];draw();
  }
  function cell(x,y,color){
   if(y<0)return;
@@ -96,7 +99,7 @@
  }
  function tick(now){
   const dt=last?Math.min((now-last)/1000,.1):0;last=now;
-  clock+=dt;if(clock>=.7){clock-=.7;fall();}
+  fall(dt);
   spawnClock+=dt;if(spawnClock>=2.1){spawnClock=0;if(pieces.length<5)spawn();}
   fragments=fragments.filter(p=>p.life>0);
   for(const p of fragments){p.life-=dt;p.vy+=400*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;}
