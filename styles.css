@@ -845,15 +845,21 @@ body.project3-page {
     position: absolute;
     top: 0;
     right: 0;
-    width: 45%;
+    width: 40vw;
+    max-width: none;
     height: auto;
+    aspect-ratio: 10 / 17;
+    display: block;
+    margin: 0;
+    left: auto;
+    bottom: auto;
     opacity: .16;
     mix-blend-mode: screen;
     pointer-events: none;
     user-select: none;
     z-index: 0;
 }
-.static-pixel-home > section { position: relative; z-index: 1; }
+.static-pixel-home > section { position: relative; z-index: 1; isolation: isolate; }
 .static-pixel-home .hero { background: transparent; }
 .static-pixel-home .hero-content { text-shadow: 0 2px 12px #000; }
 
