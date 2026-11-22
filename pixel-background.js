@@ -9,8 +9,18 @@
  const colors=['#a6a0b5','#8dabb0','#b6b8bb','#a4ad93'];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let cols,rows,size,offset,board,piece,clock=0,last=0,frame,drag=null,flash=0;
+ let tap=null, fragments=[];
+ function cancelTap(){if(tap)clearTimeout(tap.timer);tap=null;}
+ function shatter(){
+  if(!reduced.matches)for(const [dx,dy] of piece.cells)for(let i=0;i<9;i++)fragments.push({
+   x:(piece.x+dx+i%3/3)*size,y:(piece.y+dy+Math.floor(i/3)/3)*size+offset,
+   vx:(Math.random()-.5)*220,vy:-60-Math.random()*160,life:.7,color:piece.color
+  });
+  spawn();clock=0;
+ }
  function fits(cells,x,y){return cells.every(([dx,dy])=>x+dx>=0&&x+dx<cols&&y+dy<rows&&(y+dy<0||!board[y+dy][x+dx]));}
  function spawn(){
+  cancelTap();
   const type=Math.floor(Math.random()*4),cells=shapes[type].map(p=>p.slice());
   piece={cells,x:Math.floor(Math.random()*Math.max(1,cols-3)),y:-4,color:colors[type]};
   if(!fits(cells,piece.x,piece.y)){board=Array.from({length:rows},()=>Array(cols).fill(null));}
@@ -38,7 +48,7 @@
   cols=Math.max(8,Math.round(w/44));size=w/cols;rows=Math.ceil(h/size);offset=h-rows*size;
   const ratio=Math.min(devicePixelRatio||1,2);
   canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);
-  board=Array.from({length:rows},()=>Array(cols).fill(null));spawn();piece.y=1;clock=0;drag=null;draw();
+  board=Array.from({length:rows},()=>Array(cols).fill(null));spawn();piece.y=1;clock=0;drag=null;fragments=[];draw();
  }
  function cell(x,y,color){
   if(y<0)return;
@@ -51,12 +61,15 @@
   ctx.clearRect(0,0,innerWidth,innerHeight);
   board.forEach((row,y)=>row.forEach((c,x)=>{if(c)cell(x,y,c);}));
   if(piece)for(const [x,y]of piece.cells)cell(piece.x+x,piece.y+y,piece.color);
+  for(const p of fragments){ctx.globalAlpha=.5*p.life/.7;ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,size/3-2,size/3-2);}
   if(flash>0){ctx.globalAlpha=flash*.15;ctx.fillStyle='#fff';ctx.fillRect(0,innerHeight-size,innerWidth,size);}
   ctx.globalAlpha=1;
  }
  function tick(now){
   const dt=last?Math.min((now-last)/1000,.1):0;last=now;
-  if(!drag){clock+=dt;if(clock>=.9){clock=0;fall();}}
+  if(!drag&&!tap){clock+=dt;if(clock>=.5){clock=0;fall();}}
+  fragments=fragments.filter(p=>p.life>0);
+  for(const p of fragments){p.life-=dt;p.vy+=400*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;}
   flash=Math.max(0,flash-dt);draw();frame=requestAnimationFrame(tick);
  }
  function play(){cancelAnimationFrame(frame);last=0;if(!document.hidden&&!reduced.matches)frame=requestAnimationFrame(tick);else draw();}
@@ -74,9 +87,23 @@
   while(piece.x!==target&&fits(piece.cells,piece.x+direction,piece.y))piece.x+=direction;
   draw();
  });
- window.addEventListener('pointerup',e=>{if(!drag||drag.id!==e.pointerId)return;if(!drag.moved)rotate();drag=null;draw();});
+ window.addEventListener('pointerup',e=>{
+  if(!drag||drag.id!==e.pointerId)return;
+  if(!drag.moved){
+   if(tap&&Math.hypot(e.clientX-tap.x,e.clientY-tap.y)<24){
+    cancelTap();shatter();
+   }else{
+    cancelTap();
+    const selected=piece;
+    tap={x:e.clientX,y:e.clientY,timer:setTimeout(()=>{
+     tap=null;if(piece===selected)rotate();draw();
+    },280)};
+   }
+  }else cancelTap();
+  drag=null;draw();
+ });
  window.addEventListener('pointercancel',()=>{drag=null;});
- window.addEventListener('blur',()=>{drag=null;});
+ window.addEventListener('blur',()=>{drag=null;cancelTap();});
  window.addEventListener('resize',resize);
  document.addEventListener('visibilitychange',play);
  reduced.addEventListener('change',play);
