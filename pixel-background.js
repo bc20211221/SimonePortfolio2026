@@ -83,7 +83,21 @@
   const ratio=Math.min(devicePixelRatio||1,2);
   canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);
   board=Array.from({length:rows},()=>Array(cols).fill(null));pieces=[];cancelTap();
-  for(let i=0;i<3;i++){spawn();pieces[pieces.length-1].y=-4-i*4;}
+  // Populate the visible sky immediately without overlapping pieces or the floor.
+  for(let i=0;i<4;i++){
+   const count=pieces.length;spawn();
+   if(pieces.length===count)continue;
+   const piece=pieces[pieces.length-1];
+   const shapeHeight=Math.max(...piece.cells.map(([,y])=>y))+1;
+   const maxY=Math.max(0,Math.min(rows-shapeHeight-1,Math.floor(rows*.65)));
+   let placed=false;
+   for(let attempt=0;attempt<60;attempt++){
+    const x=Math.floor(Math.random()*(cols-Math.max(...piece.cells.map(([x])=>x))));
+    const y=Math.floor(Math.random()*(maxY+1));
+    if(fits(piece.cells,x,y,piece)){piece.x=x;piece.y=y;placed=true;break;}
+   }
+   if(!placed)pieces.pop();
+  }
   spawnClock=0;drag=null;fragments=[];draw();
  }
  function cell(x,y,color){
