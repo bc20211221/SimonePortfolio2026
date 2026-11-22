@@ -837,7 +837,9 @@ body.project3-page {
 /* 平滑滚动 */
 .pixel-home { background: #151515; isolation: isolate; touch-action: pan-y; }
 .pixel-home .hero { background: transparent; }
-.pixel-background { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.pixel-background { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: auto; touch-action: pan-y; }
+.pixel-home > section { position: relative; z-index: 1; pointer-events: none; }
+.pixel-home > section a, .pixel-home > section button, .pixel-home > section input, .pixel-home > section textarea, .pixel-home > section select, .pixel-home > section video { pointer-events: auto; }
 .pixel-home .hero-content { text-shadow: 0 2px 12px #000; }
 .pixel-hint { position: absolute; bottom: 24px; right: 28px; z-index: 2; color: #c5c5c5; font-size: 12px; letter-spacing: 2px; pointer-events: none; }
 
